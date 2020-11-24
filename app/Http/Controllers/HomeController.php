@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function getHome()
-    {
+    public function getHome(){
     	return redirect()->action('App\Http\Controllers\CatalogController@getIndex');
     }
-
 }
