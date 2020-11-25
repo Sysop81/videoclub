@@ -2,7 +2,7 @@
 
 @section('content')
 
-    Modificar pelicula 
+    Modificar pelicula
 
      <div class="row" style="margin-top:40px">
    <div class="offset-md-3 col-md-6">
@@ -15,8 +15,8 @@
             <form action="{{ url('/catalog/edit') }}" method="POST">
             	{{method_field('PUT')}}
             	@csrf
-            	
-            </form>
+
+
 
             <div class="form-group">
                <label for="title">Título</label>
@@ -48,7 +48,7 @@
                </button>
             </div>
 
-            {{-- TODO: Cerrar formulario --}}
+            </form>
 
          </div>
       </div>

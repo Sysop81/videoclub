@@ -12,7 +12,7 @@
 
             <form action="{{ url('/catalog/create') }}" method="POST">
             	@csrf
-            </form>
+
 
             <div class="form-group">
                <label for="title">Título</label>
@@ -44,7 +44,7 @@
                </button>
             </div>
 
-            {{-- TODO: Cerrar formulario --}}
+            </form>
 
          </div>
       </div>
