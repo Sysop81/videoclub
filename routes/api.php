@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\API\PeliculaController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::apiResource('peliculas', PeliculaController::class);
+Route::get('peliculas/search/{search}',[PeliculaController::class, 'getIndexOMDBAPI']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
