@@ -28,7 +28,6 @@ class PeliculaController extends Controller
      */
     public function search($search)
     {
-
         $host = 'www.omdbapi.com';
         $response = Http::get('http://' . $host . '/', [
             'apikey' => env('OMDBAPI_KEY'),
@@ -54,6 +53,36 @@ class PeliculaController extends Controller
 
         return new PeliculaResource($pelicula);
     }
+
+    public function storeOMDB($idFilm){
+
+        $host = 'www.omdbapi.com';
+        $response = Http::get('http://' . $host . '/', [
+            'apikey' => env('OMDBAPI_KEY'),
+            'i' => $idFilm,  //Cambiamos el parametro s por i y le establecemos el valor del identificador pasado como parametro
+            'page' => 1,
+            'r' => 'json'
+        ]);
+
+        //return response()->json(json_decode($response));
+
+        //Instanciamos la pelicula mediante los valores obtenidos OMDB y la guardamos en la BBDD
+        $p = new Pelicula;
+		$p->title = $response['Title'];
+		//$p->year = $response['Year'];       //Anulado debido a que por ejemplo con juego de tronos llega un rango de años
+		$p->director = $response['Director'];
+		$p->poster = $response['Poster'];
+        $p->rented = false;
+		$p->synopsis = $response['Plot'];
+		$p->save();
+
+        //Devolvemos la respuesta al usuario del nuevo recurso almacenado instanciando un objeto de la clase peliculaResource
+        $peliculaResource = new PeliculaResource($p);
+
+        return $peliculaResource;
+
+    }
+
 
     /**
      * Display the specified resource.
