@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Http;
 
 class PeliculaController extends Controller
 {
+
+    /* Tambien se podria haber usado el constructor de la clase para asociar las politicas
+       con esto evitamos proteger individualmente cada metodo del controlador, ya que se mapean estos metodos con los de la
+       politica
+
+       public function __construct(){
+           $this->authorizeResource(Pelicula::class, 'pelicula');
+       }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,9 +26,8 @@ class PeliculaController extends Controller
      */
     public function index()
     {
-        return PeliculaResource::collection(Pelicula::paginate());
-    }
-
+        return PeliculaResource::collection(Pelicula::paginate()); //Cualquier usuario autenticado por sanctum puede listar peliculas
+    }                                                             //Esto se aplica a aquellas rutas que no tienen aplicada la politica de autorizacion
     /**
      * Display a listing of the resource.
      *
@@ -47,6 +55,9 @@ class PeliculaController extends Controller
      */
     public function store(Request $request)
     {
+
+        //Procedemos a comprobar la politica mediante authorize
+        $this->authorize('create', Pelicula::class);
 
         $pelicula = json_decode($request->getContent(), true);
 
@@ -94,6 +105,9 @@ class PeliculaController extends Controller
      */
     public function update(Request $request, Pelicula $pelicula)
     {
+        //Procedemos a comprobar la politica mediante authorize
+        $this->authorize('update', $pelicula);
+
         $peliculaData = json_decode($request->getContent(), true);
         $pelicula->update($peliculaData);
 
@@ -108,6 +122,9 @@ class PeliculaController extends Controller
      */
     public function destroy(Pelicula $pelicula)
     {
+        //Procedemos a comprobar la politica mediante authorize
+        $this->authorize('delete', $pelicula);
+
         $pelicula->delete();
     }
 }

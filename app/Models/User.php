@@ -41,4 +41,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //Funcion encargada de identificar a un usuario que es proveedor
+    public function esProveedor(){
+        if($this->proveedor == true){
+            return true;
+        }
+
+    }
+
+    //Funcion encargada de identificar a un usuario que es administrador
+    public function esAdministrador(){
+        if($this->administrador == true){
+            return true;
+       }
+    }
+
 }
